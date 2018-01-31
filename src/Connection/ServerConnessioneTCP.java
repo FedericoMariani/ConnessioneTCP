@@ -5,6 +5,8 @@
  */
 package Connection;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -27,6 +29,9 @@ public class ServerConnessioneTCP {
         ServerSocket sSocket = null;
         //oggetto da usare per realizzare la connessione TCP
         Socket connection;
+        
+        DataInputStream in=null;
+        DataOutputStream out=null;
 
         while(true){
             try{
@@ -38,6 +43,15 @@ public class ServerConnessioneTCP {
                 System.out.println("Connessione stabilita!");
                 System.out.println("Socket server: " + connection.getLocalSocketAddress());
                 System.out.println("Socket client: " + connection.getRemoteSocketAddress());
+                
+                in = new DataInputStream(connection.getInputStream());
+                System.out.println("Client:"+in.readUTF());
+                
+                out = new DataOutputStream(connection.getOutputStream());
+                out.writeUTF("25/01/2018");
+                out.flush();
+            
+                connection.getInputStream();
             }
                catch(IOException e){
                    System.err.println("Errore di I/O!");
