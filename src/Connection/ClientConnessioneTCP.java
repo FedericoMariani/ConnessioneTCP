@@ -5,6 +5,8 @@
  */
 package Connection;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -25,11 +27,24 @@ public class ClientConnessioneTCP {
         String serverAddress = "localhost";
         //porta del server in ascolto
         int port = 2000;
+        
+        DataOutputStream out=null;
+        DataInputStream in=null;
 
         //apertura della connessione al server sulla porta specificata
         try{
             connection = new Socket(serverAddress, port);
             System.out.println("Connessione aperta");
+            
+            out = new DataOutputStream(connection.getOutputStream());
+            out.writeUTF("Voglio la data");
+            out.flush();
+            
+            in = new DataInputStream(connection.getInputStream());
+            System.out.println("Client:"+in.readUTF());
+            
+            connection.getOutputStream();
+            
         }
         catch(ConnectException e){
             System.err.println("Server non disponibile!");
